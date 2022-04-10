@@ -1,12 +1,15 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="danger">
     <ion-title>Recepies</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let recepie of recepies">
+    <ion-item
+      *ngFor="let recepie of recepies"
+      [routerLink]="['./', recepie.id]"
+    >
       <ion-avatar slot="start">
         <ion-img [src]="recepie.imageUrl"></ion-img>
       </ion-avatar>
