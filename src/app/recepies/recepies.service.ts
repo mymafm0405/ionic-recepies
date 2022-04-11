@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Recepie } from './recepie.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecepiesService {
+  recepiesChanged = new Subject<boolean>();
+
   recepies: Recepie[] = [
     new Recepie(
       'r1',
@@ -29,5 +32,10 @@ export class RecepiesService {
 
   getRecepieById(recepieId: string) {
     return { ...this.recepies.find((recepie) => recepie.id === recepieId) };
+  }
+
+  deleteRecepie(id: string) {
+    this.recepies = this.recepies.filter((rec) => rec.id !== id);
+    this.recepiesChanged.next(true);
   }
 }

@@ -14,5 +14,11 @@ export class RecepiesPage implements OnInit {
 
   ngOnInit() {
     this.recepies = this.recepiesService.getAllRecepies();
+
+    this.recepiesService.recepiesChanged.subscribe((status: boolean) => {
+      if (status) {
+        this.recepies = this.recepiesService.getAllRecepies();
+      }
+    });
   }
 }

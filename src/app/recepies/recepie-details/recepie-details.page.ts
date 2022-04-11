@@ -1,7 +1,8 @@
 import { RecepiesService } from './../recepies.service';
 import { Recepie } from './../recepie.model';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recepie-details',
@@ -12,7 +13,9 @@ export class RecepieDetailsPage implements OnInit {
   loadedRecepie: Recepie;
   constructor(
     private route: ActivatedRoute,
-    private recepiesService: RecepiesService
+    private recepiesService: RecepiesService,
+    private router: Router,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
@@ -21,5 +24,27 @@ export class RecepieDetailsPage implements OnInit {
         params.recepieId
       );
     });
+  }
+
+  onDelete() {
+    this.alertCtrl
+      .create({
+        header: 'Are you sure?',
+        message: 'Do you want to delete this recepie?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+          {
+            text: 'Yes, sure',
+            handler: () => {
+              this.recepiesService.deleteRecepie(this.loadedRecepie.id);
+              this.router.navigate(['/recepies']);
+            },
+          },
+        ],
+      })
+      .then((alrt) => alrt.present());
   }
 }
